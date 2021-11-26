@@ -3,10 +3,10 @@
 // Imports
 import faker, { fake } from 'faker'
 
-// ENDPOINTS
-const ENDPOINT_GET_ROOMS = 'http://localhost:3000/api/rooms'
-const ENDPOINT_POST_ROOM = 'http://localhost:3000/api/room/new'
-const ENDPOINT_GET_ROOM = 'http://localhost:3000/api/room/'
+// ENDPOINTS and BaseURL in Cypress.json file
+const ENDPOINT_POST_ROOM = 'api/room/new'
+const ENDPOINT_GET_ROOMS = 'api/rooms'
+const ENDPOINT_GET_ROOM = 'api/room/'
 
 // Fake Data for Room Creation
 const roomNum = faker.datatype.number()

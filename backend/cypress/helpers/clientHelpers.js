@@ -4,9 +4,9 @@
 import faker from 'faker'
 
 // ENDPOINTS
-const ENDPOINT_GET_CLIENTS = 'http://localhost:3000/api/clients'
-const ENDPOINT_POST_CLIENT = 'http://localhost:3000/api/client/new'
-const ENDPOINT_GET_CLIENT = 'http://localhost:3000/api/client/'
+const ENDPOINT_GET_CLIENTS = 'api/clients'
+const ENDPOINT_POST_CLIENT = 'api/client/new'
+const ENDPOINT_GET_CLIENT = 'api/client/'
 
 // Create payload for Creating a client with fake data
 export function createFakeClientData() {
@@ -72,7 +72,7 @@ export function createClient(cy) {
         }).then((response) => {
             // Assertion on response.body (less clutter) and check if the values are there
             const responseAsString = JSON.stringify(response.body)
-            expect(responseAsString).to.string(fakeClient.email).and.string(Cypress.env().lastIDGlob)
+            expect(responseAsString).to.have.string(fakeClient.email).and.string(Cypress.env().lastIDGlob)
         });
         getAllClientsAssert(cy, fakeClient.name, fakeClient.email, fakeClient.telephone)
     });
