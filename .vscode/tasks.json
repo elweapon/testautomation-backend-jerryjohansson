@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"path": "rasi10-hotel-test-vue/",
+			"problemMatcher": [],
+			"label": "npm: start - rasi10-hotel-test-vue",
+			"detail": "node index.js",
+			"group": "build"
+		},
+		{
+			"type": "npm",
+			"script": "open",
+			"path": "backend/",
+			"problemMatcher": [],
+			"label": "npm: open - backend",
+			"detail": "cypress open",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

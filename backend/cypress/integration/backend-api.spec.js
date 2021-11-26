@@ -16,15 +16,15 @@ describe('[API] - Test Suite', () => {
     it('[POST] - Create Client', () => {
         clientData.createClient(cy)
     })
+    
+    //  [DELETE] - Remove Client
+    it('[DELETE] - Remove Client', () => {
+        clientData.deleteClient(cy)
+    })
 
     //  [PUT] - Edit Client
     it('[PUT] - Edit Client', () => {
         clientData.editClient(cy)
-    })
-
-    //  [DELETE] - Remove Client
-    it('[DELETE] - Remove Client', () => {
-        clientData.deleteClient(cy)
     })
 
     //  [GET] - List All Rooms

@@ -11,6 +11,8 @@ const ENDPOINT_GET_CLIENT = 'http://localhost:3000/api/client/'
 // Fake Data for Client Creation
 const fullName = faker.name.firstName() + ' ' + faker.name.lastName()
 const email = faker.internet.email()
+//const phone = faker.datatype.number()
+//Faker Phonenuber format wrong for input, dont show when client is saved
 const phone = faker.phone.phoneNumber()
 
 // Create payload for Creating a client with fake data
@@ -33,7 +35,7 @@ export function editFakeClientData() {
         'created': Cypress.env().createdGlob,
         'name': fullName,
         'email': email,
-        'telephon': phone
+        'telephone': phone
     }
     
     return editPayload
@@ -56,7 +58,7 @@ export function getAllClientsAssert(cy, name, email, telephone) {
 
 // [GET] - List all Clients
 export function getAllClientRequest(cy) {
-    cy.authenticateSession().then((response) => {
+    cy.authenticateSession().then(() => {
         cy.request({
             method: 'GET',
             url: ENDPOINT_GET_CLIENTS,
@@ -66,6 +68,7 @@ export function getAllClientRequest(cy) {
             },
         }).then((response) => {
             const responseAsString = JSON.stringify(response)
+            cy.log(responseAsString)
         });
     })
 }
@@ -107,6 +110,7 @@ export function editClient(cy) {
                 const responseAsString = JSON.stringify(response.body)
                 expect(responseAsString).to.have.string(editFakeClient.email)
             })
+            getAllClientsAssert(cy, editFakeClient.name, editFakeClient.email, editFakeClient.telephone)
         })
     })
 
