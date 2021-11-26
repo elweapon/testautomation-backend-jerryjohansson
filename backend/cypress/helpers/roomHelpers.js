@@ -1,12 +1,12 @@
 /// <reference types="cypress" />
 
 // Imports
-import faker, { fake } from 'faker'
+import faker from 'faker'
 
 // ENDPOINTS and BaseURL in Cypress.json file
-const ENDPOINT_POST_ROOM = 'api/room/new'
-const ENDPOINT_GET_ROOMS = 'api/rooms'
-const ENDPOINT_GET_ROOM = 'api/room/'
+const ENDPOINT_POST_ROOM = 'http://localhost:3000/api/room/new'
+const ENDPOINT_GET_ROOMS = 'http://localhost:3000/api/rooms'
+const ENDPOINT_GET_ROOM = 'http://localhost:3000/api/room/'
 
 // Fake Data for Room Creation
 const roomNum = faker.datatype.number()
@@ -39,15 +39,14 @@ export function createFakeRoomData() {
 // Create paylod for edit Room data
 export function editFakeRoomData() {
 
-    let fakeRoom = createFakeRoomData()
     const editPayload =
     {
-        "features": fakeRoom.features,
-        "category": fakeRoom.category,
-        "number": fakeRoom.number,
-        "floor": fakeRoom.floor,
+        "features": [roomFeatRng],
+        "category": roomCateRng,
+        "number": roomNum,
+        "floor": floorNum,
         "available": true,
-        "price": fakeRoom.price,
+        "price": priceNum,
         "id": Cypress.env().lastRoomID,
         "created": Cypress.env().createdRoom
     }
@@ -56,7 +55,7 @@ export function editFakeRoomData() {
 }
 
 // [GET] - List all Rooms with Assertion
-export function getAllRoomsAssert(cy, category, features, number, newRoom) {
+export function getAllRoomsAssert(cy, category, features, number) {
     cy.request({
         method: 'GET',
         url: ENDPOINT_GET_ROOMS,
@@ -65,7 +64,6 @@ export function getAllRoomsAssert(cy, category, features, number, newRoom) {
             'Content-Type': 'application/json',
         },
     }).then((response) => {
-        // Assertion on response.body (less clutter) and check if the values are there
         const responseAsString = JSON.stringify(response.body)
         expect(responseAsString).to.have.string(features).and.string(category).and.string(number)
     });
@@ -83,7 +81,6 @@ export function getAllRoomRequest(cy) {
             },
         }).then((response) => {
             const responseAsString = JSON.stringify(response.body)
-            cy.log(responseAsString)
         });
     })
 }
@@ -102,9 +99,8 @@ export function createRoom(cy) {
             },
             body: fakeRoom,
         }).then((response) => {
-            // Assertion on response.body (less clutter) and check if the values are there
             const responseAsString = JSON.stringify(response.body)
-            expect(responseAsString).to.have.string(fakeRoom.features).and.string(Cypress.env().lastRoomID)
+            expect(responseAsString).to.have.string(fakeRoom.features)
             
         });
         getAllRoomsAssert(cy, fakeRoom.available, fakeRoom.category, fakeRoom.features, fakeRoom.floor, fakeRoom.number, fakeRoom.price, newRoom)
@@ -113,11 +109,9 @@ export function createRoom(cy) {
 
 // [PUT] - Edit Room with last ID
 export function editRoom(cy) {
-    cy.authenticateSession().then((response) => {
+    cy.authenticateSession().then(() => {
         let fakeEditRoom = editFakeRoomData()
-        cy.findLastRoom().then((response) => {
-            const featuresOfRoom = response.body.features
-            cy.log(featuresOfRoom)
+        cy.findLastRoom().then(() => {
             cy.request({
                 method: 'PUT',
                 url: ENDPOINT_GET_ROOM + Cypress.env().lastRoomID,
@@ -126,11 +120,9 @@ export function editRoom(cy) {
                     'Content-Type': 'application/json'
                 },
                 body: fakeEditRoom
-
             }).then((response) => {
-                // Assertion on response.body (less clutter) and check if the values are there
                 const responseAsString = JSON.stringify(response.body)
-                expect(responseAsString).to.have.string(fakeEditRoom.number).and.string(fakeEditRoom.category).and.string(Cypress.env().lastRoomID)
+                expect(responseAsString).to.have.string(fakeEditRoom.number).and.have.string(fakeEditRoom.category)
             })
         })
     })
@@ -149,10 +141,8 @@ export function deleteRoom(cy) {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            // Assertion on response.body (less clutter) and check if the values are removed
             const responseAsString = JSON.stringify(response.body)
-            expect(responseAsString).to.have.string('true')
-            expect(responseAsString).to.not.contain(fakeRoom.category).and.string(fakeRoom.floor).and.string(Cypress.env().lastRoomID)
+            expect(responseAsString).to.have.string('true').and.not.contain(fakeRoom.category).and.not.contain(fakeRoom.floor)
         })
     })
 }

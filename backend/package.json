@@ -9,9 +9,16 @@
   },
   "scripts": {
     "open": "cypress open",
+    "run": "cypress run --reporter mochawesome --spec cypress/integration/backend-api.spec.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cypress-multi-reporters": "^1.5.0",
+    "mocha": "^9.1.3",
+    "mochawesome": "^7.0.1",
+    "mochawesome-merge": "^4.2.0"
+  }
 }

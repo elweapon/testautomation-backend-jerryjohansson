@@ -35,7 +35,7 @@ Cypress.Commands.add('authenticateSession', () => {
     }
     cy.request({
         method: 'POST',
-        url: 'api/login',
+        url: 'http://localhost:3000/api/login',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userCredentials),
     }).then((response => {
@@ -48,11 +48,11 @@ Cypress.Commands.add('authenticateSession', () => {
 Cypress.Commands.add('findLastClient', () => {
     cy.request({
         method: 'GET',
-        url: 'api/clients',
+        url: 'http://localhost:3000/api/clients',
         headers: {
             'X-User-Auth': JSON.stringify(Cypress.env().loginToken),
             'Content-Type': 'application/json',
-        },
+        }
     }).then((response) => {
         const lastID = response.body[response.body.length - 1].id
         const createdDate = response.body[response.body.length - 1].created
@@ -64,11 +64,11 @@ Cypress.Commands.add('findLastClient', () => {
 Cypress.Commands.add('findLastRoom', () => {
     cy.request({
         method: 'GET',
-        url: 'api/rooms',
+        url: 'http://localhost:3000/api/rooms',
         headers: {
             'X-User-Auth': JSON.stringify(Cypress.env().loginToken),
             'Content-Type': 'application/json',
-        },
+        }
     }).then((response) => {
         const lastID = response.body[response.body.length - 1].id
         const createdDate = response.body[response.body.length - 1].created

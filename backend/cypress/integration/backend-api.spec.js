@@ -33,8 +33,13 @@ describe('[API] - Test Suite', () => {
     });
 
     //  [POST] - Create Room
-    it.only('[POST] - Create Room', () => {
+    it('[POST] - Create Room', () => {
         roomData.createRoom(cy)
+    });
+    
+    //  [DELETE] - Remove Room
+    it('[DELETE] - Remove Room', () => {
+        roomData.deleteRoom(cy)
     });
 
     //  [PUT] - Edit Room
@@ -42,8 +47,4 @@ describe('[API] - Test Suite', () => {
         roomData.editRoom(cy)
     });
 
-    //  [DELETE] - Remove Room
-    it('[DELETE] - Remove Room', () => {
-        roomData.deleteRoom(cy)
-    });
 })
